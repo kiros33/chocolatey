@@ -18,11 +18,21 @@ $packageArgs = @{
   validExitCodes= @(0, 3010, 1641)
 }
 
-Install-ChocolateyPackage @packageArgs # https://chocolatey.org/docs/helpers-install-chocolatey-package
+Write-Host "Begin installation"
 
-$installLocation = Get-AppInstallLocation $packageArgs.softwareName
+Install-ChocolateyPackage @packageArgs
+Remove-Item $toolsDir\*.msi -ea 0 -force
+
+#$installLocation = Get-AppInstallLocation $packageArgs.softwareName
+$installLocation = "C:\Program Files\redis"
 
 if (!$installLocation)  { 
   Write-Warning "Can't find $packageArgs.softwareName install location"; return 
 }
 Write-Host "$packageArgs.softwareName installed to '$installLocation'"
+
+Write-Host "Install bin redis-cli.exe"
+Install-BinFile 'redis-cli' $installLocation\redis-cli.exe
+
+Write-Host "Install bin redis-server.exe"
+Install-BinFile 'redis-server' $installLocation\redis-server.exe

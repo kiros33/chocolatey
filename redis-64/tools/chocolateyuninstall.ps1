@@ -49,7 +49,11 @@ if ($key.Count -eq 1) {
       # - Review the code for auto-uninstaller for all of the fun things it does in sanitizing - https://github.com/chocolatey/choco/blob/bfe351b7d10c798014efe4bfbb100b171db25099/src/chocolatey/infrastructure.app/services/AutomaticUninstallerService.cs#L142-L192
     }
 
+Write-Host "[file]$packageArgs["file"]"
+
     Uninstall-ChocolateyPackage @packageArgs
+    Uninstall-BinFile -Name "redis-cli" -Path $packageArgs["file"]
+    Uninstall-BinFile -Name "redis-server" -Path $packageArgs["file"]
   }
 } elseif ($key.Count -eq 0) {
   Write-Warning "$packageName has already been uninstalled by other means."
