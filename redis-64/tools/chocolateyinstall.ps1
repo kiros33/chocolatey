@@ -9,8 +9,6 @@ else {
   Write-Host "Installing 32 bit version" ; Get-Item $toolsDir\*-x32-*.msi
 }
 
-Write-Host "Step 0003"
-
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
   fileType      = 'msi' #only one of these: exe, msi, msu
